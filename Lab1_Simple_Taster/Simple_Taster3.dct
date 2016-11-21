@@ -190,6 +190,7 @@ delay_80us
 delay_8ms
 delay_cyc
 delay_option
+directionflag
 disale
 disale_bit
 disrto
@@ -356,7 +357,7 @@ lden
 lden_bit
 ldexp
 ldiv
-led
+leds
 level2double
 log
 log10

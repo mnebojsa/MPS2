@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Simple_Taster2.c
+Value=Simple_Taster3.c
 [USE_EEPROM]
 Value=0
 [EEPROM_DEFINITION]
@@ -15,7 +15,7 @@ Value=
 Value=1
 [FILES]
 Count=1
-File0=Simple_Taster2.c
+File0=Simple_Taster3.c
 [BINARIES]
 Count=0
 [IMAGES]
@@ -23,7 +23,7 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 Count=1
-File0=Simple_Taster2.c
+File0=Simple_Taster3.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
