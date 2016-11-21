@@ -9,7 +9,7 @@ void main()
      directionFlag = 1;
      while(1)
      {
-             if (directionFlag)
+ if (directionFlag)
                 LEDS = LEDS << 1;
              else
                  LEDS = LEDS >> 1;

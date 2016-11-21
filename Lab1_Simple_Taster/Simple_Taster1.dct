@@ -139,6 +139,7 @@ b7
 bcd2dec
 bcd2dec16
 button
+buttonpress
 byte2double
 bytetohex
 bytetostr
@@ -312,6 +313,7 @@ ie0
 ie0_bit
 ie1
 ie1_bit
+initmcu
 int2double
 intel_pwd_exit
 intel_pwd_exit_bit
@@ -777,6 +779,7 @@ t6963c_writecommand
 t6963c_writedata
 tan
 tanh
+taster
 tb8
 tb8_bit
 tclk
