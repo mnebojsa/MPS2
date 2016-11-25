@@ -1,4 +1,0 @@
-main
-	InitMCU
-	Div_16x16_S
-		Div_16x16_U
