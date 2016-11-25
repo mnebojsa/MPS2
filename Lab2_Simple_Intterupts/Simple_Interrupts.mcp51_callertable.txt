@@ -1,4 +1,0 @@
-main
-	InitMCU
-btn_down
-btn_up
