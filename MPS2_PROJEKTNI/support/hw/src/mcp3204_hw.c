@@ -1,6 +1,6 @@
-//#include "../include/mcp3204_hw.h"
+#include "../include/mcp3204_hw.h"
 
-extern sfr sbit MCP3204_CS;
+sbit MCP3204_CS at P3_5_bit;
 unsigned int cmd;
 
 void MCP3204_Init(unsigned char mode, unsigned char channel)
@@ -19,4 +19,19 @@ void MCP3204_SetChannel(unsigned char channel)
 {
      cmd &= 0xfe3f;
      cmd |= channel << 6;
+}
+
+void MCP3204_CS_On()
+{
+    MCP3204_CS = 0;
+}
+
+void MCP3204_CS_Off()
+{
+    MCP3204_CS = 1;
+}
+
+unsigned int getCmd()
+{
+    return cmd;
 }

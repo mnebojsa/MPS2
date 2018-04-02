@@ -3,7 +3,6 @@
 volatile char scale;
 char* currScale[]={"[uV]", "[mV]", "[V]", "[kV]"};
 static int manualChange;
-sbit MCP3204_CS at P3_5_bit;
 
 //FINISHED
 static void helloMsg()
@@ -48,11 +47,11 @@ void initVoltmeter()
 {
     manualChange = 0;
     /* set initial count value   */
-    //timerInit();
-    //MCP3204_Init(0,0);
-    intrEn();
-    SPIInit(MASTER_MODE_0);
+    //InitTimer();
+    InitSPI(MASTER_MODE_0);
+    InitADC(0,0);
     displayInit();
+    intrEn();
     registerIntrEx0(incrScale);
     registerIntrEx1(decrScale);
     //helloMsg();
@@ -77,24 +76,24 @@ void dispVoltage(unsigned int mesuredVal, char scale)
      float temp = (float)mesuredVal;
      //unsigned int temp;
      //temp = mesuredVal;
-     switch (scale)
+/*     switch (scale)
      {
-            case 0:
-                 temp = mesuredVal*1000000.0;
-                 break;
-            case 1:
-                 temp = mesuredVal*1000.0;
-                 break;
-            case 2:
-                 temp = mesuredVal;
-                 break;
-            case 3:
-                 temp = mesuredVal*0.001;
-                 break;
-            default:
-                 temp = mesuredVal;
-                 break;
-     }
+         case 0:
+             temp = mesuredVal*1000000.0;
+             break;
+         case 1:
+             temp = mesuredVal*1000.0;
+             break;
+         case 2:
+             temp = mesuredVal;
+             break;
+         case 3:
+             temp = mesuredVal*0.001;
+             break;
+         default:
+             temp = mesuredVal;
+             break;
+     }  */
 
      //FloatToStr(temp, mesuredVal2txt);
      WordToStr((unsigned int)temp, mesuredVal2txt);
@@ -111,8 +110,8 @@ unsigned int mesProccess(char* scale)
      //float temp = 0.000254;
      unsigned int sample;
      
-     MCP3204_SetChannel(0);
-     sample = MCP3204_GetSample();
+     ADCSetChannel(0);
+     sample = ADCGetSample();
     /* if (0 == manualChange)
      {
          if (temp < 0.001)

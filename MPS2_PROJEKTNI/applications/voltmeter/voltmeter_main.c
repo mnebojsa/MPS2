@@ -23,16 +23,15 @@ int main()
     unsigned int mesuredVal;
     /*Initialise all modules used for voltmeter*/
     initVoltmeter();
-    scale = 1;
+    //scale = 1;
     while(1)
     {
         mesuredVal = mesProccess(&scale);
       //  signalLed = signalLight(mesuredVal, DELTA);
       //  if (1 == refreshDisplayTime(REFRESH_TIME))
-        {
+        //{
             dispVoltage(mesuredVal, scale);
-            delay_MS(300);
-        }
+        //}
     }
     return 0;
 }

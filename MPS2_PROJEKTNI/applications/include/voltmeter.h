@@ -4,7 +4,7 @@
 #include "../../support/API/include/timer.h"
 #include "../../support/API/include/interrupts.h"
 #include "../../support/API/include/display.h"
-#include "../../support/API/include/mcp3204.h"
+#include "../../support/API/include/ADConv.h"
 #include "../../support/API/include/spi.h"
 
 /**
