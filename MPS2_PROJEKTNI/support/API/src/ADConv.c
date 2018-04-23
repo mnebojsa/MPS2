@@ -1,41 +1,47 @@
 #include "../include/ADConv.h"
 #include "spi.h"
 
-char  mesuredVal2txt[15];
+sbit MCP3204_CS at P3_5_bit;
+unsigned int cmd;
 
-void InitADC(unsigned char mode, unsigned char channel)
+void MCP3204_Init(unsigned char mode, unsigned char channel)
 {
-    MCP3204_Init(mode,channel);
+    MCP3204_CS = 1;
+    cmd = (mode << 9) | (channel << 6) | 0x0400;
 }
 
-void ADCSetMode(unsigned char mode)
+void MCP3204_SetMode(unsigned char mode)
 {
-    MCP3204_SetMode(mode);
+     cmd &= 0xfdff;
+     cmd |= mode << 9;
 }
 
-void ADCSetChannel(unsigned char channel)
+void MCP3204_SetChannel(unsigned char channel)
 {
-    MCP3204_SetChannel(channel);
+     cmd &= 0xfe3f;
+     cmd |= channel << 6;
 }
 
-unsigned int ADCGetSample()
+float MCP3204_GetSample(void)
 {
-    unsigned int cmd;
-    unsigned int read;
+    int readVal;
+    float retVal;
     unsigned char read_h;
     unsigned char read_l;
 
-    MCP3204_CS_On();
-    cmd = getCmd();
-    //8 praznih bita
-    SPI_ReadByte(cmd >> 8);
+    MCP3204_CS = 0;
+    //8 konfiguracionih bita -. konfiguracija se radi za svaki transfer-tome sluzi cmd
+    SPI_ByteTransfer(cmd >> 8);
     //4 prazna i 4 bitna bita 0f=0000 1111
-    read_h = SPI_ReadByte(cmd) & 0x0f;
+    //ovde se salje cmd adc-u, a rima se byte podataka... nosi li cmd info
+    read_h = SPI_ByteTransfer(cmd) & 0x0f;
     //8 bitnih bita ... strana 16
-    read_l = SPI_ReadByte(0);
-    MCP3204_CS_Off();
+    read_l = SPI_ByteTransfer(0);
+    MCP3204_CS = 1;
 
-    read = (read_h << 8) | read_l;
-
-    return read;
+    readVal = (read_h << 8) | read_l;
+    
+    retVal = readVal * DELTA_VAL;
+    
+    return retVal;
 }

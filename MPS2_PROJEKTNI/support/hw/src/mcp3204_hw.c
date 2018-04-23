@@ -21,17 +21,23 @@ void MCP3204_SetChannel(unsigned char channel)
      cmd |= channel << 6;
 }
 
-void MCP3204_CS_On()
+int MCP3204_GetSample(void)
 {
+    int readVal;
+    unsigned char read_h;
+    unsigned char read_l;
+
     MCP3204_CS = 0;
-}
-
-void MCP3204_CS_Off()
-{
+    //8 konfiguracionih bita -. konfiguracija se radi za svaki transfer-tome sluzi cmd
+    SPI_ReadByte(cmd >> 8);
+    //4 prazna i 4 bitna bita 0f=0000 1111
+    //ovde se salje cmd adc-u, a rima se byte podataka... nosi li cmd info
+    read_h = SPI_ReadByte(cmd) & 0x0f;
+    //8 bitnih bita ... strana 16
+    read_l = SPI_ReadByte(0);
     MCP3204_CS = 1;
-}
 
-unsigned int getCmd()
-{
-    return cmd;
+    readVal = (read_h << 8) | read_l;
+    
+    return readVal;
 }

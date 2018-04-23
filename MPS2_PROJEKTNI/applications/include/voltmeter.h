@@ -3,114 +3,93 @@
 
 #include "../../support/API/include/timer.h"
 #include "../../support/API/include/interrupts.h"
-#include "../../support/API/include/display.h"
-#include "../../support/API/include/ADConv.h"
-#include "../../support/API/include/spi.h"
+//#include "../../support/API/include/display.h"
+//#include "../../support/API/include/ADConv.h"
+//#include "../../support/API/include/spi.h"
 
 /**
  * @brief
-This function initialises all modules used by Voltmeter. Those
+ * This function initialises all modules used by Voltmeter. Those
  *          modules are: -Display
  *                       -A/D converter
  *                       -SPI
  *                       -Timer
+ *                       -Interrupt
+ *                       -Set Interrupt handlers
+ * It should be called before any other API function.
  *
  * @param [IN] - No input params
  *
  * @ret [No return value]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
  */
-void initVoltmeter(void);
+ 
+void idata initVoltmeter(void);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function check is it time to refresh display. Ussualy it is caled to
+ * update value that is checked in if statement. When return value is equal
+ * to 1, display will be refreshed
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - refreshTime - Refresh display time (in [ms] )
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [OUT] - 0 if it is not time to refresh display, or
+ *            - 1 if it is time to refresh the display
  */
-char refreshDisplayTime(char);
+char refreshDisplayTime(char refreshTime);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function is used to for messurment process. It gives back messured value
+ * and sets automaticly right scale (where the parameter of the function is
+ * a pointer to the scale variable)
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - *scale - pointer to the scale variable
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [OUT] - returns value of samples (whole scale take 4096 samples if 
+ *              MCP3204 is used). This is not measured value, but just
+ *              reference value-where max value is 4096. Real mesured voltage
+ *              is calculated using this value and Reference Voltage value
+ *              (reference volltage value on A/D conv)
  */
-unsigned int mesProccess(char*);
-
-/**
- * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
- *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
- *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
- */
- char signalLight(float, float);
+float mesProccess(char* scale);
  
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * Display float value (measured voltage here), on Display, in scale provided.
+ * this function takes num of samples(that are returned by mesProccess function)
+ * and displays real measured voltage (measured voltage is function of sample 
+ * number and reference voltage on A/D convertor)
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - float mesuredVal - relative voltage level
+ * @param [IN] - char scale - scale in which voltage is displayed
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
- void dispVoltage(unsigned int, char);
+ void dispVoltage(float mesuredVal, char scale);
  
  /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * This is external_interrupt_0 handler for Voltmetar app.
+ * It is used to be registerd to extern interrupt in voltmetar Init function.
+ * This function is used for manual scale changeing
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - No input parameters
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+  * @ret [No return value]
  */
- void incrScale(void);
+ void incrScaleIntrHandler(void);
  
-  /**
+ /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * This is external_interrupt_0 handler for Voltmetar app.
+ * It is used to be registerd to extern interrupt in voltmetar Init function.
+ * This function is used for manual scale changeing
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - No input parameters
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+  * @ret [No return value]
  */
- void decrScale(void);
+ void decrScaleIntrHandler(void);
  
 #endif

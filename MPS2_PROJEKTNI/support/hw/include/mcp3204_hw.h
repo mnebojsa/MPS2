@@ -1,53 +1,54 @@
 #ifndef _MCP3204_HW_H_
 #define _MCP3204_HW_H_
 
+#include "spi.h"
 
-/****************************************************
-*        Function used to initialize the ADC module
-*
-*        Arguments:
-*                - mode: 0 - differential, 1 - single
-*                - channel: 0-3
-*
-*        Returns: nothing
-*****************************************************/
+#define REF_VOLTAGE (5.0)
+#define DELTA_STEPS (4096.0)
+#define DELTA_VAL   (REF_VOLTAGE / DELTA_STEPS)
+
+/**
+ * @brief
+ * Function used to initialize the ADC module
+ *
+ * @param [IN] - unsigned char mode      -mode: 0 - differential, 
+ *                                              1 - single
+ * @param [IN] - cunsigned char channel  -channel: 0-3
+ *
+ * @ret [No return value]
+ */
 void MCP3204_Init(unsigned char mode, unsigned char channel);
 
-/****************************************************
-*        Function used to set the mode of the ADC module
-*
-*        Arguments:
-*                - mode: 0 - differential, 1 - single
-*
-*        Returns: nothing
-*****************************************************/
+/**
+ * @brief
+ * Function used to set the mode of the ADC module
+ *
+ * @param [IN] - unsigned char mode      -mode: 0 - differential,
+ *                                              1 - single
+ *
+ * @ret [No return value]
+ */
 void MCP3204_SetMode(unsigned char mode);
 
-/****************************************************
-*        Function used to set the channel of the ADC module
-*
-*        Arguments:
-*                - channel: 0-3
-*
-*        Returns: nothing
-*****************************************************/
+/**
+ * @brief
+ * Function used to set the channel of the ADC module
+ *
+ * @param [IN] - cunsigned char channel  -channel: 0-3
+ *
+ * @ret [No return value]
+ */
 void MCP3204_SetChannel(unsigned char channel);
 
-/****************************************************
-*        Function used to set the CS bit for ADC module
-*
-*          The CS/SHDN pin is used to initiate communication
-*          with the device when pulled low and will end a conversion
-*          and put the device in low power standby when
-*           pulled high. The CS/SHDN pin must be pulled high
-*           between conversions.
-*
-*        Arguments:
-*
-*        Returns: nothing
-*****************************************************/
-void MCP3204_CS_On();
-void MCP3204_CS_Off();
-unsigned int getCmd();
+/**
+ * @brief
+ * Function used to get sample from ADC module. 
+ * Returns 12-bit digital sample (0-4096)
+ *
+ * @param [IN] - void - no input parameters
+ *
+ * @ret [OUT]  - int  - 12-bit digital sample (0-4096)
+ */
+int MCP3204_GetSample(void);
 
 #endif

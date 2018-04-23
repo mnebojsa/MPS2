@@ -1,94 +1,78 @@
 #include "../include/timer.h"
 
 long prescaler;
-static int delay;
-long tcount;
-void InitTimer()
+static int idata delay;
+static long ticks = 0;
+long idata tcount;
+bit test at P0_1_bit;
+/*
+
+
+void setTimerVal(char timer, char timerReladVal)
 {
-    /* set initial count value     */
-    tcount = 0;
-    /* set prescaler to obtain 500ms period   */
-    prescaler = 1000;
-    /* set timer 0 (gate disable, interval timer, auto-reload mode) */
-    /*setTMOD(0x02);   */
-    /* set auto-reload value to get 100us base tick  */
-    setTimerVal(0,TIMER_100u);
-    /* enable interrupts (sets EA and ET0)  */
-    setIEVal(0x87);
-    /* run the timer   */
-    TR0_bit = 1;
-
-    delay = 2;
-}
-
-void startTimer()
-{
-        int temp = 5;
-        setTC();
-}
-
-void startCounter()
-{
-        
-}
-
-void enableinterrupt()
-{
-        
-}
-
-void count_up() iv IVT_ADDR_ET0 {
-    static long ticks = 0;
-    IE = 0x00;
-    if (ticks++ >= delay*prescaler)
+    if(T0 == timer)
     {
-        tcount++;
-        ticks = 0;
+        setT0Val(timerReladVal);
     }
-    IE = 0x87;
+    else if(T1 == timer)
+    {
+        setT1Val(timerReladVal);
+    }
+    else
+    {
+        /* MISRA */
+//    }
+//}
+
+
+void T0IntrHandler(void)
+{
+
+
+     if (ticks++ >= prescaler)
+     {
+         tcount++;
+         ticks = 0;
+     }
+     if (tcount > delay)
+     {
+         tcount = 0;
+         ticks = 0;
+         test= ~test;
+         delay_MS(50);
+     }
+}
+/*
+void T1IntrHandler()
+{
+    //setTimerVal(T1,TIMER_100u);
 }
 
 unsigned long milis()
 {
-     //return count;
-     return 1;
+     return tcount;
 }
-
+ */
 /*
 
 volatile unsigned long count;
 long prescaler;
-
-void InitTimer()
+*/
+void initTimer()
 {
      // Set initial count value
-     count = 0;
+     tcount = 0;
      // Set prescaler to obtain 1 ms period
-     prescaler = 10;
+     prescaler = 100000;
+     delay = 10000;
      // Set timer 0 (gate disable, interval timer, auto-reload mode)
      TMOD = 0x02;
      // Set auto-reload value to get 100us base tick
      TH0 = 136;
      // Enable interrupts (sets EA and ET0)
      IE = 0x82;
+     registerIntrTC0(T0IntrHandler);
      // Run the timer
      TR0_bit = 1;
+     //registerIntrTC0(T0IntrHandler);
 }
-
-void count_up() iv IVT_ADDR_ET0
-{
-     static long ticks = 0;
-
-     if (ticks++ >= prescaler)
-     {
-         count++;
-         ticks = 0;
-     }
-}
-
-unsigned long milis()
-{
-     return count;
-}
-
-*/
