@@ -1,78 +1,72 @@
 #include "../include/timer.h"
 
-long prescaler;
-static int idata delay;
-static long ticks = 0;
-long idata tcount;
-bit test at P0_1_bit;
-/*
+#define PRESCALER   (8)
 
-
-void setTimerVal(char timer, char timerReladVal)
-{
-    if(T0 == timer)
-    {
-        setT0Val(timerReladVal);
-    }
-    else if(T1 == timer)
-    {
-        setT1Val(timerReladVal);
-    }
-    else
-    {
-        /* MISRA */
-//    }
-//}
-
-
-void T0IntrHandler(void)
-{
-
-
-     if (ticks++ >= prescaler)
-     {
-         tcount++;
-         ticks = 0;
-     }
-     if (tcount > delay)
-     {
-         tcount = 0;
-         ticks = 0;
-         test= ~test;
-         delay_MS(50);
-     }
-}
-/*
-void T1IntrHandler()
-{
-    //setTimerVal(T1,TIMER_100u);
-}
+static long tcount =0;
 
 unsigned long milis()
 {
      return tcount;
 }
- */
-/*
 
-volatile unsigned long count;
-long prescaler;
-*/
 void initTimer()
 {
-     // Set initial count value
-     tcount = 0;
-     // Set prescaler to obtain 1 ms period
-     prescaler = 100000;
-     delay = 10000;
-     // Set timer 0 (gate disable, interval timer, auto-reload mode)
-     TMOD = 0x02;
-     // Set auto-reload value to get 100us base tick
-     TH0 = 136;
-     // Enable interrupts (sets EA and ET0)
-     IE = 0x82;
-     registerIntrTC0(T0IntrHandler);
-     // Run the timer
-     TR0_bit = 1;
-     //registerIntrTC0(T0IntrHandler);
+    char idata TCmode;
+    char idata TCONreg;
+    
+    TCmode = ENABLE_TC0 |
+             T0_AUTO_RELOAD;
+    
+    TCONreg = ENABLE_T0 |
+              C1_INTR_ON_FALLING_EDGE |
+              C0_INTR_ON_FALLING_EDGE;
+    // Set initial count value
+    tcount = 0;
+    // Set timer 0 (gate disable, interval timer, auto-reload mode)
+    setTCMode(TCmode);
+    // Set auto-reload value to get 100us base tick
+    TH0 = 0x88;
+    //
+    TCCntrl(TCONreg);
+    // Enable interrupts (sets EA and ET0)
+    //register timer/counter 0 intr handler function
+    registerIntrTC0(T0IntrHandler);
+}
+
+void setTCMode(char TCmode)
+{
+    TMOD = 0;
+    TMOD = TCmode;
+}
+
+void TCCntrl(char TCONreg)
+{
+    TCON = TCONreg;
+}
+
+void setTimerVal(char timer,char timerVal)
+{
+    if(0 == timer)
+    {
+        TH0 = timer;
+    }
+    else if(1 == timer)
+    {
+        TH1 = timer;
+    }
+}
+
+void T0IntrHandler(void)
+{ static unsigned int ticks = 0;
+     //increases tcount after 1[ms]
+     if (ticks++ >= PRESCALER)
+     {
+         tcount++;
+         ticks = 0;
+     }
+}
+
+void T1IntrHandler()
+{
+    //write this function when needed
 }

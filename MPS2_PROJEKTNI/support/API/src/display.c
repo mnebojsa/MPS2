@@ -45,18 +45,21 @@ static void LcdPort(char setPort)
 
 void LcdCmd(char cmd)
 {
+/*
     // write to comand register
     LCD_RS = 0;
     
     LCD_EN  = 1;
     LcdPort((cmd & 0xf0) >> 4);
-    LcdDelay(5);
+ //   LcdDelay(5);
     LCD_EN  = 0;
     
     LCD_EN  = 1;
     LcdPort(cmd & 0x0f);
-    LcdDelay(5);
-    LCD_EN  = 0;;
+ //   LcdDelay(5);
+    LCD_EN  = 0;
+*/
+Lcd_Cmd(cmd);
 }
 
 
@@ -67,50 +70,87 @@ void LcdSetCursor(char row, char colmun)
     LcdCmd(temp);
 }
 
-void idata initLcd()
+void initLcd()
 {
-    LcdPort(0x00);
-    LcdDelay(200);
-
-    LCD_RS = 0;
-
-    LCD_EN  = 1;
-    LcdDelay(5);
-    LcdPort(0x03);
-    LCD_EN  = 0;
-
-    LcdDelay(50);
-
-    LCD_EN  = 1;
-    LcdPort(0x03);
-    LcdDelay(5);
-    LCD_EN  = 0;
-
-    LcdDelay(110);
-
-    LCD_EN  = 1;
-    LcdPort(0x03);
-    LcdDelay(5);
-    LCD_EN  = 0;
+//    LcdPort(0x00);
+//    LcdDelay(200);
+//
+//    LCD_RS = 0;
+//
+//    LCD_EN  = 1;
+//    LcdDelay(5);
+//    LcdPort(0x03);
+//    LCD_EN  = 0;
+//
+//    LcdDelay(50);
+//
+//    LCD_EN  = 1;
+//    LcdPort(0x03);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+//
+//    LcdDelay(110);
+//
+//    LCD_EN  = 1;
+//    LcdPort(0x03);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
 
     //BF can be checked after the following instructions. When BF is not checked,
     //the waiting time between instructions is longer than the execution
     //instuction time.
-    LcdCmd(0x02);
+    //    LcdCmd(0x02);
+//    LCD_EN  = 1;
+//    LcdPort(0x02);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
     //Sets 4-bit operation and selects 1-line display and 5 ´ 8 dot character font.
     //4-bit operation starts from this step and resetting is necessary.*/
     //N F * *
-    LcdCmd(0x28);
+    //    LcdCmd(0x28);
+//    LCD_EN  = 1;
+//    LcdPort(0x02);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+//        LCD_EN  = 1;
+//    LcdPort(0x08);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
     //Turns on display and cursor. Entire display is in space mode
     //because of initialization.
-    LcdCmd(0x0C);
+    //    LcdCmd(0x0C);
+//    LCD_EN  = 1;
+//    LcdPort(0x00);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+//        LCD_EN  = 1;
+//    LcdPort(0x0C);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
     // Display clear
-    LcdCmd(0x01);
+    //    LcdCmd(0x01);
+//    LCD_EN  = 1;
+//    LcdPort(0x00);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+//        LCD_EN  = 1;
+//    LcdPort(0x01);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
     //Entry mode set
     //Sets mode to increment the address by one and to shift the cursor to the 
     //right at the time of write to the DD/CGRAM. Display is not shifted
     //0 1 I/D S
-    LcdCmd(0x06);
+    //    LcdCmd(0x06);
+//    LCD_EN  = 1;
+//    LcdPort(0x00);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+//        LCD_EN  = 1;
+//    LcdPort(0x01);
+//    LcdDelay(5);
+//    LCD_EN  = 0;
+LCD_Init();
 }
 
 void LcdPutChar(char chr)
@@ -129,7 +169,7 @@ void LcdPutChar(char chr)
 
 void LcdPutString(int row, int colmun, char *txt)
 {
-    char loop;
+/*    char loop;
     char temp;
         
     temp = (1 == row)?(0x80 + colmun):(0xC0 + colmun);
@@ -139,5 +179,7 @@ void LcdPutString(int row, int colmun, char *txt)
     for(loop=0;txt[loop]!='\0';loop++)
     {
         LcdPutChar(txt[loop]);
-    }
+    } */
+    LCD_Out(row,colmun, txt);
+    
 }

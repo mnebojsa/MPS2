@@ -2,13 +2,16 @@
 
 void idata initSPI(char spcrVal)
 {
-    SPCR = 0x00;
-    SPCR |= spcrVal;
+    SPCR = spcrVal;
 }
 
-unsigned char SPI_ByteTransfer(unsigned char _data)
+char SPI_ByteTransfer(char _data)
 {
+//    char regVal;
+//    regVal = IE;
     SPDR = _data;
+//    IE = regVal & 0b01111111;
     while(SPIF_bit == 0);
+//    IE = regVal | 0b10000000;
     return SPDR;
 }

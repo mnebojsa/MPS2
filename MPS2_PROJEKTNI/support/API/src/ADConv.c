@@ -1,8 +1,8 @@
 #include "../include/ADConv.h"
-#include "spi.h"
+#include "../include/spi.h"
 
 sbit MCP3204_CS at P3_5_bit;
-unsigned int cmd;
+int cmd;
 
 void MCP3204_Init(unsigned char mode, unsigned char channel)
 {
@@ -26,8 +26,8 @@ float MCP3204_GetSample(void)
 {
     int readVal;
     float retVal;
-    unsigned char read_h;
-    unsigned char read_l;
+    char read_h;
+    char read_l;
 
     MCP3204_CS = 0;
     //8 konfiguracionih bita -. konfiguracija se radi za svaki transfer-tome sluzi cmd
@@ -40,8 +40,15 @@ float MCP3204_GetSample(void)
     MCP3204_CS = 1;
 
     readVal = (read_h << 8) | read_l;
-    
+    MCP3204_CS = 0;
     retVal = readVal * DELTA_VAL;
     
     return retVal;
+}
+
+void boost()
+{   char temp;
+    MCP3204_CS = 0;
+    //for(temp =1;temp<25;temp++);
+    MCP3204_CS = 1;
 }

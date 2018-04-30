@@ -51,5 +51,5 @@ void MCP3204_SetChannel(unsigned char channel);
  * @ret [OUT]  - float - voltage value sampled
  */
 float MCP3204_GetSample(void);
-
+void boost();
 #endif

@@ -20,6 +20,6 @@
                        SPI_SCK_IDLE_L | SPI_SCK_PHASE_L | SPI_CLK_RATE_1)
 
 void idata initSPI(char spcrVal);
-unsigned char SPI_ByteTransfer(unsigned char _data);
+unsigned char SPI_ByteTransfer(char _data);
 
 #endif

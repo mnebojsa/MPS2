@@ -1,10 +1,15 @@
 #ifndef _INTERRUPTS_H_
 #define _INTERRUPTS_H_
 
-#define _CLEAR_INTR_REG    (0X00)
-#define _ENABLE_INTERRUPTS (0X80)
-#define _EXTERN_0_INTR     (0x00)
-#define _TC0_INTR          (0x00)
+// IE register defines
+#define _CLEAR_INTR_REG     (0X00)
+#define _EN_INTR            (0X80)
+#define _EN_SERIAL_INTR     (0X10)
+#define _EN_TC1_INTR        (0X08)
+#define _EN_EX_1_INTR       (0X04)
+#define _EN_TC0_INTR        (0X02)
+#define _EN_EX_0_INTR       (0X01)
+
 
 
 //void intrEnHw(char arg);
@@ -37,7 +42,7 @@ typedef void (*InterruptFxn)(void);
  * Handle to CGuidelines object or null if any of argv files can not be opened
  * or if argc is less or equal to 0
  */
-void idata intrEn();
+void idata intrEn(char IEval);
 
 /**
  * @brief
