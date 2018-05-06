@@ -26,14 +26,10 @@ int main()
     {
         /* do the mesuring */
         /* if REFRESH_TIME is passed since last display refres - refresh the disp*/
-
+        mesuredVal = mesProccess(&scale);
         temp = milis();
-//        P3_5_bit = 0;
-//        P3_5_bit = 1;
-
         if (1000 <= (temp - count))
         {
-            mesuredVal = mesProccess(&scale);
             count = temp;
             dispVoltage(mesuredVal, scale);
         }
