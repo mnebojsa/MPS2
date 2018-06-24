@@ -15,7 +15,6 @@
 #define _LCD_SHIFT_LEFT            (0x18)
 #define _LCD_SHIFT_RIGHT           (0x1C)
 
-
 /**
  * @brief
  * This function initialises the display.

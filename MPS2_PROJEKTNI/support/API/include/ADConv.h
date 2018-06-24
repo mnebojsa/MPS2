@@ -16,7 +16,6 @@
  * @ret [No return value]
  */
 void MCP3204_Init(unsigned char mode, unsigned char channel);
-//void initADC(unsigned char mode, unsigned char channel);
 
 /**
  * @brief
@@ -28,7 +27,6 @@ void MCP3204_Init(unsigned char mode, unsigned char channel);
  * @ret [No return value]
  */
 void MCP3204_SetMode(unsigned char mode);
-//void ADCSetMode(unsigned char mode);
 
 /**
  * @brief
@@ -39,7 +37,6 @@ void MCP3204_SetMode(unsigned char mode);
  * @ret [No return value]
  */
 void MCP3204_SetChannel(unsigned char channel);
-//void ADCSetChannel(unsigned char channel);
 
 /**
  * @brief
@@ -51,5 +48,5 @@ void MCP3204_SetChannel(unsigned char channel);
  * @ret [OUT]  - float - voltage value sampled
  */
 float MCP3204_GetSample(void);
-void boost();
+
 #endif

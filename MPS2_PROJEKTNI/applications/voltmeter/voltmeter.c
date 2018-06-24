@@ -50,10 +50,10 @@ void idata initVoltmeter()
     MCP3204_Init(0,0);
     initLcd();
     intrEn(IEval);
-    initTimer();
+    initTC();
     registerIntrEx0(incrScaleIntrHandler);
     registerIntrEx1(decrScaleIntrHandler);
-//    helloMsg();
+    helloMsg();
     signalLed = 0;
 }
 
@@ -85,7 +85,6 @@ void dispVoltage(float mesuredVal, char scale)
      LcdCmd(_LCD_CURSOR_OFF);
 }
 
-
 float mesProccess(char* scale)
 {
     float sample = 0.0;
@@ -114,7 +113,6 @@ void incrScaleIntrHandler(void)
 {
      scale += (scale < 2)?1:0;
      manualChange = 1;
-     //scale %= 2;
 }
 
 void decrScaleIntrHandler(void)

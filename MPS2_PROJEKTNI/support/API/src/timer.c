@@ -9,7 +9,7 @@ unsigned long milis()
      return tcount;
 }
 
-void initTimer()
+void initTC()
 {
     char idata TCmode;
     char idata TCONreg;
@@ -25,7 +25,7 @@ void initTimer()
     // Set timer 0 (gate disable, interval timer, auto-reload mode)
     setTCMode(TCmode);
     // Set auto-reload value to get 100us base tick
-    TH0 = 0x88;
+    TH0 = TIMER_100u;
     //
     TCCntrl(TCONreg);
     // Enable interrupts (sets EA and ET0)
@@ -57,13 +57,14 @@ void setTimerVal(char timer,char timerVal)
 }
 
 void T0IntrHandler(void)
-{ static unsigned int ticks = 0;
-     //increases tcount after 1[ms]
-     if (ticks++ >= PRESCALER)
-     {
-         tcount++;
-         ticks = 0;
-     }
+{ 
+    static unsigned int ticks = 0;
+    //increases tcount after 1[ms]
+    if (ticks++ >= PRESCALER)
+    {
+        tcount++;
+        ticks = 0;
+    }
 }
 
 void T1IntrHandler()

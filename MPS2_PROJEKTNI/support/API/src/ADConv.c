@@ -28,14 +28,17 @@ float MCP3204_GetSample(void)
     float retVal;
     char read_h;
     char read_l;
-
+    
+    MCP3204_CS = 1;
     MCP3204_CS = 0;
-    //8 konfiguracionih bita -. konfiguracija se radi za svaki transfer-tome sluzi cmd
+    //variable given as argument is command sent to AD convertor
+    //value recived rom convertor is always return value  from SPI_BTransfer func
+    //configuration byte is sent for each transfer
     SPI_ByteTransfer(cmd >> 8);
-    //4 prazna i 4 bitna bita 0f=0000 1111
-    //ovde se salje cmd adc-u, a rima se byte podataka... nosi li cmd info
+    //AD convertor gives back 12 bit information in two steps.
+    //First step - 4 higher bits of sample value - 0f=0000 1111
     read_h = SPI_ByteTransfer(cmd) & 0x0f;
-    //8 bitnih bita ... strana 16
+    //2nd step - 8 lower bits of information are recived, no command is sent to
     read_l = SPI_ByteTransfer(0);
     MCP3204_CS = 1;
 
@@ -44,11 +47,4 @@ float MCP3204_GetSample(void)
     retVal = readVal * DELTA_VAL;
     
     return retVal;
-}
-
-void boost()
-{   char temp;
-    MCP3204_CS = 0;
-    //for(temp =1;temp<25;temp++);
-    MCP3204_CS = 1;
 }

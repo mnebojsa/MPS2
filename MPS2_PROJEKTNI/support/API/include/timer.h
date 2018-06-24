@@ -1,4 +1,3 @@
-//timer functions
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
@@ -6,7 +5,7 @@
 //TMOD register
 #define ENABLE_TC1 (0x80)
 #define ENABLE_TC0 (0x08)
-/* timer modes */
+// timer modes
 #define T1_MODE_0 (0x00)
 #define T1_MODE_1 (0x10)
 #define T1_AUTO_RELOAD (0x20)
@@ -26,93 +25,69 @@
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function is used to init timer/counter
+ * Currently it is written to set Timer  to work in auto reload mode
+ * this function should be repaired for further usage
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [No  input params]
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No  valureturne]
  */
-void initTimer();
+void initTC(void);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function is used to set timer mode if the module is used as timer. It
+ * writes coresponding values in TMOD register. Values that should be used are
+ * defined in this file
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - char TCmode - timer mode
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
 void setTCMode(char TCmode);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function returns value of global static variable that is updated after
+ * each timer interrupt
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [No  input params]
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [OUT] - unsigned long - value updated after each timer interrupt
  */
-unsigned long milis();
+unsigned long milis(void);
  
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function updates TCON register
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - char TCONreg - valu to write in TCON register
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
 void TCCntrl(char TCONreg);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function sets timer/counter values - useful in autoreload mode
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - char timer    - timer  or 1
+ * @param [IN] - char timerVal - value to write in timer
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
 void setTimerVal(char timer,char timerVal);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The interrupt handler functions that should be registerd to timer interrupts
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [No  input params]
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No  valureturne]
  */
-void T0IntrHandler();
-void T1IntrHandler();
+void T0IntrHandler(void);
+void T1IntrHandler(void);
 
 #endif

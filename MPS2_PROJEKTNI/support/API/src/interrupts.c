@@ -1,8 +1,5 @@
 #include "../include/interrupts.h"
 
-sbit testEx0 at P0_3_bit;
-sbit testEx1 at P0_4_bit;
-
 static InterruptFxn pt2Handler[4] = {(void*)0, (void*)0, (void*)0, (void*)0};
 
 void idata registerIntrEx0(InterruptFxn arg)
@@ -37,7 +34,6 @@ void extIntr0() iv IVT_ADDR_EX0 ilevel 0 ics ICS_AUTO
     char regVal;
     regVal = IE;
     IE = regVal & 0b01111111;
-    testEx0 = ~testEx0;
     pt2Handler[0]();
     IE = regVal | 0b10000000;
 }
@@ -47,7 +43,6 @@ void extIntr1() iv IVT_ADDR_EX1 ilevel 0 ics ICS_AUTO
     char regVal;
     regVal = IE;
     IE = regVal & 0b01111111;
-    testEx1 = ~testEx1;
     pt2Handler[1]();
     IE = regVal | 0b10000000;
 }
@@ -61,7 +56,7 @@ void tc0() iv IVT_ADDR_ET0 ilevel 0 ics ICS_AUTO
     IE = regVal | 0b10000000;
 }
 
-void tc1() iv IVT_ADDR_ET1 ilevel 0 ics ICS_AUTO 
+void tc1() iv IVT_ADDR_ET1 ilevel 0 ics ICS_AUTO
 {  /*
     char regVal;
     regVal = IE;

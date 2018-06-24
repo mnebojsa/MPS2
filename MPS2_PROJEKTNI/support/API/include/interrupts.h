@@ -10,55 +10,30 @@
 #define _EN_TC0_INTR        (0X02)
 #define _EN_EX_0_INTR       (0X01)
 
-
-
-//void intrEnHw(char arg);
-char takeRegVal(char reg);
-/**
- * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
- *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
- *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
- */
 typedef void (*InterruptFxn)(void);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * The function is used to enable interrupts globali. It sets value of IE reg
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - char IEval -value to be written into IE reg
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
 void idata intrEn(char IEval);
 
 /**
  * @brief
- * The function allocates argc number of buffers. It filles buffers with
- * file content.
- * It should be called before any other API function.
+ * Interrupt register functions - used to register applications specific
+ * functions to interrupt routines available
  *
- * @param [IN] - argc - Number of file names in argv param
- * @param [IN] - argv - Array of file names
+ * @param [IN] - InterruptFxn arg - function to be called when interrupt happends
  *
- * @ret [CGuidelines_Handle]
- * Handle to CGuidelines object or null if any of argv files can not be opened
- * or if argc is less or equal to 0
+ * @ret [No return value]
  */
 void idata registerIntrEx0(InterruptFxn arg);
 void idata registerIntrEx1(InterruptFxn arg);
 void idata registerIntrTC0(InterruptFxn arg);
 void idata registerIntrTC1(InterruptFxn arg);
+
 #endif
